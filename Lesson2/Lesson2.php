@@ -8,9 +8,8 @@
     'South America' => ['Dasyprocta','Myrmecophaga tridactyla']
     ];
     foreach($myZoo as $c => $z) {
-      $country = $c;
       foreach($z as $zver) {
-        if(stristr($zver, ' ')) {
+        if(substr_count($zver, ' ') == 1) {
         $newZoo[] = $zver;
         }
       }
