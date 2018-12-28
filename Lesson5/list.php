@@ -1,5 +1,9 @@
 <?php 
-    $questArray = json_decode(file_get_contents('./files/test.json'), true);
+    foreach (scandir('./files') as $key => $value) {
+        if (stristr($value, '.json') !== false) {
+            $questArray[] = $value;
+        }
+    }
  ?>
 
 
@@ -10,11 +14,7 @@
     <title></title>
 </head>
 <body>
-    <p><?php print_r('Количество имеющихся тестов '.count($questArray)); ?></p>
-    <p>Введите номер теста</p>
-    <form action="test.php" method="GET">
-        <input type="text" name="testNumber" >
-        <input type="submit" value="Перейти к выбранному тесту">
-    </form>
+    <p><?php echo 'Количество имеющихся файлов тестов '.count($questArray); ?></p>
+    <p><a href="./test.php">Перейти к тестам</a></p>
 </body>
 </html>
