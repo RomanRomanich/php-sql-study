@@ -32,7 +32,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Все еще урок 4</title>
+    <title>Урок пятый. Обработка форм</title>
 </head>
 <body>
    
@@ -67,20 +67,3 @@
 </body>
 </html>
 
-<?php
-/*if (isset($_GET['testPassed'])) {
-    echo 'Результаты тестирования:';
-    array_shift($_GET);
-    array_shift($_GET);
-    $ansArray = $_GET;
-    $rightAnsvers = 0;
-    foreach ($testPrep as $key => $value) {
-        if ($value['ans'][$ansArray[$key]][1] == 'true') {
-            $rightAnsvers++;
-        }
-    }
-    echo '<br>';
-    echo 'Правильных ответов '.$rightAnsvers.' из '. count($testPrep);
-
-}*/
-?>

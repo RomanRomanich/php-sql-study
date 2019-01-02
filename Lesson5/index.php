@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Урок четвертый.</title>
+    <title>Урок пятый. Обработка форм.</title>
 </head>
 <body>
     <form enctype="multipart/form-data" action="admin.php" method="post">

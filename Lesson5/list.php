@@ -1,5 +1,5 @@
 <?php 
-    foreach (scandir('./files') as $key => $value) {
+    foreach (scandir('./files') as $value) {
         if (stristr($value, '.json') !== false) {
             $questArray[] = $value;
         }
@@ -11,10 +11,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Урок пятый. Обработка форм.</title>
 </head>
 <body>
-    <p><?php echo 'Количество имеющихся файлов тестов '.count($questArray); ?></p>
-    <p><a href="./test.php">Перейти к тестам</a></p>
+    <?php foreach ($questArray as $key => $value): ?>
+        <p><a href=<?php echo './test.php?testNumber='.($key+1); ?>><?php echo $value; ?></a></p>
+    <?php endforeach ?>
 </body>
 </html>
