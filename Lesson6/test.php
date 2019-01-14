@@ -6,6 +6,13 @@
         }
     }
     unset($value);
+
+    #Ну или переход к загрузке файлов если их еще нету
+    if (empty($questArray)) {
+        echo "судя по всему нету еще ни одного файла теста \n";
+        echo "<a href='admin.php'> Перейти к загрузке тестов.</a>";
+        exit;
+    }
     
     #Проверка правильности введенного номера теста
     if (array_key_exists('testNumber', $_GET)) {
@@ -58,7 +65,7 @@
     <?php if ((!array_key_exists('testNumber', $_GET)) && ((!array_key_exists('testPassed', $_GET)) || ($_GET['testPassed'] != 'true'))): ?>
         <p><?php echo 'Количество имеющихся файлов тестов '.count($questArray); ?></p>
         <p>Введите номер теста</p>
-        <form action="test1.php" method="GET">
+        <form action="test.php" method="GET">
             <input type="text" name="testNumber" >
             <input type="submit" value="Перейти к выбранному тесту">
         </form>

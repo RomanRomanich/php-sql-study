@@ -1,6 +1,9 @@
 <?php 
     
     session_start();
+    if (empty($_SESSION['rightAnsvers']) || empty($_SESSION['maxAnsver']) || empty($_SESSION['humanName'])) {
+        header('Location: test.php');
+    }
 
     $im = imagecreatetruecolor(200, 200);
 
