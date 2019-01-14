@@ -34,7 +34,7 @@
     #подключаемся к БД
     $user = 'rbagrov';
     $pass = 'neto1918';
-    $dbBooks = new PDO('mysql:host=localhost;dbname=netology_lessons', $user, $pass);
+    $dbBooks = new PDO('mysql:host=localhost;dbname=global;charset=UTF8', $user, $pass);
          
     #Формируем запрос к БД
     $statemant = $dbBooks->prepare("SELECT `name`, `author`, `year`, `genre`, `isbn` FROM `books` WHERE `name` LIKE :name AND `author` LIKE :author AND `isbn` LIKE :isbn");
