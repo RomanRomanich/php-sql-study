@@ -6,7 +6,7 @@
     $bg = imagecolorallocate($im, rand(1, 255), rand(1, 255), 200);
     $textColor = imagecolorallocate($im, rand(1, 255), 50, rand(1, 255));
 
-    $fonts = __DIR__ . '/files/arial.ttf';
+    $fonts = "../arial.ttf";
     $a = rand(1, 50);
     $b = rand(1, 50);
     $_SESSION['expression'] = $a + $b;

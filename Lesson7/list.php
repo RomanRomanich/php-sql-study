@@ -1,5 +1,7 @@
 <?php
     session_start();
+include_once ('./files/extra/autority_chech.php');
+isUser();
     
     if (isset($_POST['sessionKill'])) {
         session_unset();

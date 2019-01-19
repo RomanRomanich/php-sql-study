@@ -53,7 +53,7 @@
 <body>
     <!-- А тут вывод картинки с сертификатом -->
     <?php if (isset($testPassed)): ?>
-        <p><img src="cert.php"></p>
+        <p><img src="./files/extra/cert.php"></p>
         <?php unset($testPassed); ?>
     <?php endif ?>
 

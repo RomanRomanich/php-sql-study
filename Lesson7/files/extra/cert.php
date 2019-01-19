@@ -7,7 +7,7 @@
     $bg = imagecolorallocate($im, 200, 255, 200);
     $textColor = imagecolorallocate($im, 50, 50, 50);
 
-    $fonts = __DIR__ . '/files/arial.ttf';
+    $fonts = "../arial.ttf";
     $text = $_SESSION['rightAnsvers'].' из '.$_SESSION['maxAnsver'];
 
     imagefill($im, 0, 0, $bg);
