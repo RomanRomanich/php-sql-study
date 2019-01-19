@@ -2,6 +2,9 @@
 session_start();
 #Старт сессии и опредление основных переменных
 if (empty($_SESSION['dbUser']) || empty($_SESSION['dbPass']) || empty($_SESSION['dbName'])) {
+    $_SESSION['dbUser'] = 'rbagrov';
+    $_SESSION['dbPass'] = 'neto1918';
+    $_SESSION['dbName'] = 'rbagrov';
 }
 
 ?>
