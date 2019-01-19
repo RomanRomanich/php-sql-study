@@ -61,7 +61,7 @@ $taskCountQuery->execute([":user_id" => $_SESSION['userID']]);
 $taskCount = $taskCountQuery->fetchAll(PDO::FETCH_COLUMN);
 
 #Получение имен пользователей делегировавших задачи
-$taskAuthorsQuery = $db->prepare("SELECT t.id as task_id, login, u.id as user_id FROM task t INNER JOIN USER u ON u.id = t.user_id WHERE t.user_id = :user_id OR t.assigned_user_id = :user_id");
+$taskAuthorsQuery = $db->prepare("SELECT t.id as task_id, login, u.id as user_id FROM task t INNER JOIN `user` u ON u.id = t.user_id WHERE t.user_id = :user_id OR t.assigned_user_id = :user_id");
 $taskAuthorsQuery->execute(["user_id" => $_SESSION['userID']]);
 $taskAuthors = $taskAuthorsQuery->fetchAll(PDO::FETCH_ASSOC);
 
