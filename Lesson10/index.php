@@ -18,14 +18,11 @@ if (empty($_SESSION['dbUser']) || empty($_SESSION['dbPass']) || empty($_SESSION[
 <body>
 <form action="check.php" method="post">
     <p>Логин<input type="text" name="user" required></p>
-    <p>Пароль<input type="text" name="pass" required></p>
+    <p>Пароль<input type="password" name="pass" required></p>
     <p><input type="submit" value="Войти"></p>
 </form>
 
-<form action="register.php" method="post">
-    <input type="submit" value="Зарегистрироваться">
-</form>
+<a href="register.php">Перейти к регистрации</a>
 
-</form>
 </body>
 </html>

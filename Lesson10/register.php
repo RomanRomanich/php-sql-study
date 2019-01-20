@@ -5,7 +5,7 @@ if (empty($_SESSION['dbUser']) || empty($_SESSION['dbPass']) || empty($_SESSION[
     header('Location: index.php');
 }
 
-$db = new PDO('mysql:host=localhost;dbname='.$_SESSION['dbName'].';charset=UTF8', $_SESSION['dbUser'], $_SESSION['dbPass']);
+include_once ('dbconnect.php');
 
 #проверка уникальности логина и регистрация нового пользователя при успехе
 if (!empty($_POST['user']) && !empty($_POST['pass'])) {
@@ -41,7 +41,7 @@ if (!empty($_POST['user']) && !empty($_POST['pass'])) {
 <body>
 <form action="" method="post">
     <p>Логин<input type="text" name="user" required></p>
-    <p>Пароль<input type="text" name="pass" required></p>
+    <p>Пароль<input type="password" name="pass" required></p>
     <p><input type="submit" value="зарегистрироваться"></p>
 </form>
 </body>

@@ -4,7 +4,8 @@ session_start();
 if (empty($_SESSION['dbUser']) || empty($_SESSION['dbPass']) || empty($_SESSION['dbName']) || empty($_SESSION['userID'])) {
     header('Location: index.php');
 }
-$db = new PDO('mysql:host=localhost;dbname='.$_SESSION['dbName'].';charset=UTF8', $_SESSION['dbUser'], $_SESSION['dbPass']);
+
+include_once ('dbconnect.php');
 
 #Смена пользователя
 if (!empty($_POST['user_change']) && $_POST['user_change']) {
@@ -33,7 +34,7 @@ if (!empty($_POST['description'])) {
 
 #Смена статуса документа
 if (isset($_POST['is_done'])) {
-    $taskUpdateStatusQuery = $db->prepare("UPDATE `task` SET is_done = :is_done WHERE id = :id AND user_id = :user_id");
+    $taskUpdateStatusQuery = $db->prepare("UPDATE `task` SET is_done = :is_done WHERE id = :id AND (user_id = :user_id OR assigned_user_id = :user_id)");
     $taskUpdateStatusQuery->execute([":is_done" => $_POST['is_done'], ":id" => $_POST['update_id'], ":user_id" => $_SESSION['userID']]);
     $_POST['is_done'] = NULL;
 }
@@ -44,11 +45,6 @@ if (isset($_POST['assignUser'])) {
     $taskUpdateStatusQuery->execute([":assigned_user_id" => $_POST['assignUser'], ":id" => $_POST['update_id'], ":user_id" => $_SESSION['userID']]);
     $_POST['assignUser'] = NULL;
 }
-
-#Получение перечня задач
-$taskCheckQuery = $db->prepare("SELECT * FROM `task` WHERE user_id = :user_id OR assigned_user_id = :user_id ORDER BY `date_added`");
-$taskCheckQuery->execute([":user_id" => $_SESSION['userID']]);
-$tasks = $taskCheckQuery->fetchAll(PDO::FETCH_ASSOC);
 
 #Получение всего списка пользователей
 $allUserQuery = $db->prepare("SELECT `id`, `login` FROM `user`");
@@ -61,9 +57,9 @@ $taskCountQuery->execute([":user_id" => $_SESSION['userID']]);
 $taskCount = $taskCountQuery->fetchAll(PDO::FETCH_COLUMN);
 
 #Получение имен пользователей делегировавших задачи
-$taskAuthorsQuery = $db->prepare("SELECT t.id as task_id, login, u.id as user_id FROM task t INNER JOIN `user` u ON u.id = t.user_id WHERE t.user_id = :user_id OR t.assigned_user_id = :user_id");
-$taskAuthorsQuery->execute(["user_id" => $_SESSION['userID']]);
-$taskAuthors = $taskAuthorsQuery->fetchAll(PDO::FETCH_ASSOC);
+$tasksQuery = $db->prepare("SELECT t.id as task_id, login, `description`, `is_done`, `date_added`, `assigned_user_id`, `user_id` FROM task t INNER JOIN `user` u ON u.id = t.user_id WHERE t.user_id = :user_id OR t.assigned_user_id = :user_id");
+$tasksQuery->execute([":user_id" => $_SESSION['userID']]);
+$tasks = $tasksQuery->fetchAll(PDO::FETCH_ASSOC);
 
 
 ?>
@@ -113,22 +109,19 @@ $taskAuthors = $taskAuthorsQuery->fetchAll(PDO::FETCH_ASSOC);
     <tbody>
         <?php foreach($tasks as $tasksValue): ?>
             <tr>
-                <td><?php echo $tasksValue['description']; ?></td>
-                <td><?php echo $tasksValue['date_added']; ?></td>
-                <td>
-                    <?php
-                    foreach ($taskAuthors as $author) {
-                        if ($author['task_id'] == $tasksValue['id']) {
-                            if ($author['user_id'] == $_SESSION['userID']) {
-                                echo "Это моя задача";
-                            } else {
-                                echo "А эту задачу подкинул ".$author['login'];
-                            }
+                <td><?php echo $tasksValue['description']; ?></td>      <!-- Задача -->
+                <td><?php echo $tasksValue['date_added']; ?></td>       <!-- Когда добавлена -->
 
-                        }
+                <td>                                                    <!-- Кем добавлена(делегирована) -->
+                    <?php
+                    if ($tasksValue['user_id'] == $_SESSION['userID']) {
+                        echo "Это моя задача";
+                    } else {
+                        echo "А эту задачу подкинул ".$tasksValue['login'];
                     }?>
                 </td>
-                <td><?php if ($tasksValue['is_done']){
+
+                <td><?php if ($tasksValue['is_done']){                  //<!-- Выполнена, не выполнена -->
                         $status = 'Выполнено';
                         $buttonValue = 'Вернуть в работу';
                     } else {
@@ -141,13 +134,15 @@ $taskAuthors = $taskAuthorsQuery->fetchAll(PDO::FETCH_ASSOC);
                                                                             echo 0;
                                                                          } else {
                                                                             echo 1;} ?>">
-                        <input type="hidden" name="update_id" value="<?php echo $tasksValue['id'] ?>">
+                        <input type="hidden" name="update_id" value="<?php echo $tasksValue['task_id'] ?>">
                         <input type="submit" value="<?php echo $buttonValue ?>">
                     </form>
                 </td>
-                <td>
+
+                <td>                                                    <!-- Делегировать -->
                     <form action="" method="post">
-                        <input type="hidden" name="update_id" value="<?php echo $tasksValue['id'] ?>">
+                        <input type="hidden" name="update_id" value="<?php echo $tasksValue['task_id'] ?>">
+                        <?php if ($tasksValue['user_id'] == $_SESSION['userID']): ?>
                         <select name="assignUser">
                             <?php foreach ($allUsers as $allUsersKey => $allUserValue): ?>
                                 <option value="<?php echo $allUserValue['id'];?>" <?php if ($tasksValue['assigned_user_id'] == $allUserValue['id']) { echo "selected"; }?> > <?php echo $allUserValue['login'];?>
@@ -155,13 +150,20 @@ $taskAuthors = $taskAuthorsQuery->fetchAll(PDO::FETCH_ASSOC);
                             <?php endforeach; ?>
                         </select>
                         <input type="submit" value="Делегировать">
+                        <?php else: ?>
+                            <p>Тебе поручили? Вот и нечего стрелки переводить</p>
+                        <?php endif; ?>
                     </form>
-                    <p><?php if ($tasksValue['user_id'] != $_SESSION['userID']) {echo "Тебе поручили? Вот и нечего стрелки переводить";} ?></p>
                 </td>
+
                 <td>
                     <form action="" method="POST">
-                        <input type="hidden" name="id" value="<?php echo $tasksValue['id']?>">
-                        <input type="submit" value="Удалить"> <?php if ($tasksValue['user_id'] != $_SESSION['userID']) {echo "Удалить не получится, не ты создавал";} ?>
+                        <input type="hidden" name="id" value="<?php echo $tasksValue['task_id']?>">
+                        <?php if ($tasksValue['user_id'] == $_SESSION['userID']): ?>
+                        <input type="submit" value="Удалить">
+                        <?php else: ?>
+                            <p>Задача чужая, не удалишь</p>
+                        <?php endif; ?>
                     </form>
                 </td>
             </tr>
