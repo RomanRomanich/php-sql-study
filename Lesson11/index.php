@@ -4,10 +4,11 @@ session_start();
 $_SESSION['db_name'] = 'rbagrov';
 $_SESSION['db_user'] = 'rbagrov';
 $_SESSION['db_pass'] = 'neto1918';
+$db_name = 'rbagrov';
 
 include_once('./core/dbconnect.php');
 //Получаем данные о таблицах в БД
-$tables_show = $db->prepare("SHOW TABLES FROM `lesson10`");
+$tables_show = $db->prepare('SHOW TABLES FROM `'.$db_name.'`');
 $tables_show->execute();
 $tables = $tables_show->fetchAll(PDO::FETCH_NUM);
 
