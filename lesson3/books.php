@@ -17,14 +17,7 @@
     	exit;
     }
 
-    #print_r($bookJson);
-    #print_r($serchItem);
-    #echo PHP_EOL;
-    #print_r($serchQuerry);
-    #$bookJson = json_decode(file_get_contents('volumes.json'), true)['items'];
-
-  
-  $i = 0;
+    $i = 0;
    	foreach ($bookJson['items'] as $k1 => $v1) {
   		$forCSV[$i]['id'] = $v1['id'];
   		$list = $v1;
