@@ -18,24 +18,23 @@
 
 </header>
 <a href="?admin=1" class="my-a">Войти как администратор</a>
-<?php //print_r($_POST);?>                  <!--Оставил на время отладки, незабыть убрать-->
+
+
+
 <section class="cd-faq">
 	<ul class="cd-faq-categories">
-        <!--<pre><?php /*print_r($allCats); */?></pre>   -->                               <!--не забыть убрать когда закончу-->
-        <?php foreach ($allCats as $catKey => $category): ?>
+
+        <?php foreach ($cats as $catKey => $category): ?>
 		<li><a <?php if($catKey == 0) {echo "class=\"selected\"";}?>  href="#<?=$category['id']?>"><?=$category['cat_name']?></a></li>
         <?php endforeach;?>
 		<li><a href="#addquest">Задать вопрос</a></li>
 	</ul> <!-- cd-faq-categories -->
 
 	<div class="cd-faq-items">
-        <?php foreach ($allCats as $catKey => $category): ?>
+        <?php foreach ($cats as $catKey => $category): ?>
         <ul id="<?=$category['id']?>" class="cd-faq-group">
             <li class="cd-faq-title"><h2><?=$category['cat_name']?></h2></li>
             <?php foreach ($quests->getQuestAndAnswers($category['id']) as $questKey => $quest): ?>
-           <!-- <pre><?php /*print_r($questKey);*/?></pre>
-                <br>
-            <pre> <?php /*print_r($quest);*/?> </pre>-->
                <li>
                    <a class="cd-faq-trigger" href="#0"><?=$quest['quest']?></a>
                 <div class="cd-faq-content">

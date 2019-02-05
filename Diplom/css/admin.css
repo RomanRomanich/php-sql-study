@@ -1,0 +1,37 @@
+body{
+    width: 1000px;
+    margin: 5px auto;
+}
+
+.menu {
+    display: inline-block;
+    height: 40px;
+    background-color: #a9c056;
+}
+.menu a {
+    margin: auto;
+    padding: 0px 20px;
+}
+
+table {
+    margin-top: 15px;
+    border-collapse: collapse;
+}
+thead tr {
+    font-weight: bold;
+    background-color: #a9a9a9;
+}
+tbody tr:nth-child(even) {
+    background-color: lightgrey;
+}
+td {
+    padding: 3px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #cccccc;
+}
+
+.error {
+    color: red;
+}
+

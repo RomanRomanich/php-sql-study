@@ -1,11 +1,12 @@
 <?php
-class db
+
+class Db
 {
-private $connect = [
-'host' => 'localhost',
-'name' => 'rbagrov',
-'user' => 'rbagrov',
-'pass' => 'neto1918'];
+    private $connect = [
+        'host' => 'localhost',
+        'name' => 'rbagrov',
+        'user' => 'rbagrov',
+        'pass' => 'neto1918'];
 
     public function getDb()
     {
@@ -16,6 +17,4 @@ private $connect = [
         }
         return $db;
     }
-
 }
-?>
