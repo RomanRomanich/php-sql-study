@@ -1,11 +1,16 @@
 <?php
 function models($className)
 {
-    $file = 'files/models/'. lcfirst($className) . '.php';
-    if (is_readable($file)) {
+    $className = str_replace('\\', '/', $className);
+    if (is_readable('files/'. $className . '.php')) {
+        $file = 'files/'. $className . '.php';
+        require_once ($file);
+    } elseif (is_readable('files/src/'. $className . '.php')) {
+        $file = 'files/src/'. $className . '.php';
         require_once ($file);
     }
 }
-require_once ('./files/controllers/admin/control.php');
-require_once ('./files/controllers/user/control.php');
+require_once('./files/controllers/AdminController.php');
+require_once('./files/controllers/UserController.php');
+
 spl_autoload_register('models');

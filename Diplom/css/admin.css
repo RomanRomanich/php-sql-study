@@ -35,3 +35,6 @@ td {
     color: red;
 }
 
+.selector {
+    display: inline-block;
+}

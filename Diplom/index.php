@@ -1,54 +1,115 @@
 <?php
 session_start();
-include('autoload.php');
 
+include('autoload.php'); //Автозагрузка классов
+
+$db = new Db(); //инициализация доступа к БД
+
+//Проверка состояния правил доступа (админ или простой пользователь
 if (empty ($_SESSION['admin']) || (isset($_GET['admin']) && $_GET['admin'] == 0)) {
     $_SESSION['admin'] = 0;
 }
 
-//  user section
+//  Пользовательсая секция
 if($_SESSION['admin'] == 0) {
-    $user = new user\Control();
+    $user = new user\Control($db);
+    //вход в админскую часть
     if (isset($_GET['admin']) && $_GET['admin'] == 1) {
         $user ->signin();
     }
+    //Загрузка главной страницы
     if (empty($_GET['admin']) || $_GET['admin'] != 1) {
         $user->mainPage();
     }
+    //Форма добавления нового фопроса
     if (isset($_POST['add_quest']) && $_POST['add_quest'] == 1) {
         $user->addQuestion();
     }
 }
 
-//  admin section
+//  АДминская секция
 if ($_SESSION['admin'] == 1) {
-    $user = new admin\Control();
+    $admin = new Admin\Control($db);
+    //Вход в главное меню админской части
     if (empty($_GET['service']) || (isset($_GET['service'])) && $_GET['service'] == 'main') {
-        $user->mainPage();
+        $admin->mainPage();
     }
-
+// Секция маршрутизации
+    //Работа с учетками
     if  (isset($_GET['service']) && $_GET['service'] == 'user') {
-
+        //Удаление учетки
         if (isset($_GET['action']) && $_GET['action'] == 'delete') {
-            $user->userDelete();
+            $admin->userDelete();
         }
-        elseif (isset($_GET['action']) && $_GET['action'] == 'add')
-        {
-            $user->userAdd();
+        //Добавление учетки
+        elseif (isset($_GET['action']) && $_GET['action'] == 'add') {
+            $admin->userAdd();
+            $admin->showUser();
         }
-        elseif (isset($_GET['action']) && $_GET['action'] == 'pass_change')
-        {
-            $user->passChange();
+        //Смена пароля
+        elseif (isset($_GET['action']) && $_GET['action'] == 'pass_change') {
+            $admin->passChange();
+            $admin->showUser();
         }
+        //Отображение всех учетных записей
         else {
-            $user->showUser();
+            $admin->showUser();
         }
     }
+    //Секция работы с категориями вопросов (темами)
     elseif (isset($_GET['service']) && $_GET['service'] == 'categories') {
-        /*$cat = new Categories();
-        $cats = $cat->getAllCats();*/
-        echo 'пока в работе <br>';
-        echo '<a href="?service=main">Вернуться</a>';
+        //Добавление
+        if (isset($_GET['action']) && $_GET['action'] == 'add') {
+            $admin->addCat();
+        }
+        //Удаление категорий и всех вопросов и ответов связанных с ней
+        if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+            $admin->deleteCats();
+        }
+        //Переименование
+        if (isset($_GET['action']) && $_GET['action'] == 'rename') {
+            $admin->renameCat();
+        }
+        //Список категорий
+        $admin->showAllCats();
+    }
+    //Отображение всех вопрос без ответов
+    elseif (isset($_GET['service']) && $_GET['service'] == 'q_no_ans') {
+        //Удаление вопроса
+        if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+            $admin->deleteQuest();
+        }
+        //Внесние правок в вопрос
+        if (isset($_GET['action']) && $_GET['action'] == 'quest_change') {
+            $admin->changeQuest();
+        }
+        //Добавление ответа
+        if (isset($_GET['action']) && $_GET['action'] == 'ansver_add') {
+            $admin->addAnsver();
+        }
+        //список вопрос без ответов
+        $admin->q_no_ans();
+    }
+    //Вопрсы разнесенные покатегориям
+    elseif (isset($_GET['service']) && $_GET['service'] == 'q_and_ans') {
+        //удаление вопроса
+        if (isset($_GET['action']) && $_GET['action'] == 'delete_q') {
+            $admin->deleteQuest();
+        }
+        //Перенос в другую категорию
+        if(isset($_GET['action']) && $_GET['action'] == 'c_id_change') {
+            $admin->changeQuestCategory();
+        }
+        //Изменения татуса (опудликован или нет)
+        if (isset($_GET['action']) && $_GET['action'] == 'q_stat_change') {
+            $admin->changeStatus();
+        }
+        //Правка вопроса и добавление или правка ответа
+        if (isset($_GET['action']) && $_GET['action'] == 'change_q_and_a') {
+            $admin->changeQuestAndAns();
+        }
+        //список вопросов разбитых на категории
+        $admin->questAndAnsver();
     }
 
 
@@ -57,7 +118,7 @@ if ($_SESSION['admin'] == 1) {
 
 
 
-    #include('./files/controllers/admin/admin_control.php');
+
 }
 
 
