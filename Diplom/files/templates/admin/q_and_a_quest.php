@@ -72,6 +72,7 @@
                 </form>
                 </p>
             </td>
+
             <td><?=$questArray['ansver']?></td>
             <td><?=$questArray['ansverer']?></td>
             <td><a href="?service=q_and_ans&action=delete_q&q_id=<?=$questArray['quest_id']?>&c_id=<?=$_GET['c_id']?>">Удалить вопрос</a></td>

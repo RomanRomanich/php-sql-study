@@ -3,13 +3,6 @@
 
 class Render
 {
-    private $db;
-
-    public function __construct($db)
-    {
-        $this->db = $db;
-    }
-
     public function userMainPage($cats, $allCats, $quests)
     {
         include_once ('./files/templates/user/user.php');
@@ -55,7 +48,7 @@ class Render
         include_once ('./files/templates/admin/cat_rename.php');
     }
 
-    public function q_no_ansver($quests)
+    public function q_no_answer($quests)
     {
         include_once ('./files/templates/admin/q_no_ans.php');
     }
@@ -65,17 +58,17 @@ class Render
         include_once ('./files/templates/admin/quest_change.php');
     }
 
-    public function addAnsver()
+    public function addAnswer()
     {
         include_once ('./files/templates/admin/ansver_add.php');
     }
 
-    public function questAndAnsverCats($cats)
+    public function questAndAnswerCats($cats)
     {
         include_once ('./files/templates/admin/q_and_a_cats.php');
     }
 
-    public function questAndAnsverQuest($questAndAnsvers, $cats)
+    public function questAndAnswerQuest($questAndAnsvers, $cats)
     {
         include_once ('./files/templates/admin/q_and_a_quest.php');
     }

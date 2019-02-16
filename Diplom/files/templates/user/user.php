@@ -31,16 +31,15 @@
 	</ul> <!-- cd-faq-categories -->
 
 	<div class="cd-faq-items">
-        <?php foreach ($cats as $catKey => $category): ?>
+        <?php foreach ($quests as $catKey => $category): ?>
         <ul id="<?=$category['id']?>" class="cd-faq-group">
             <li class="cd-faq-title"><h2><?=$category['cat_name']?></h2></li>
 
-            <?php foreach ($quests->getQuestAndAnswers($category['id'], 0) as $questKey => $quest): ?>
-
+            <?php foreach ($category[$category['id']] as $questKey => $quest): ?>
                <li>
                    <a class="cd-faq-trigger" href="#0"><?=$quest['quest']?></a>
                 <div class="cd-faq-content">
-                    <p><?=$quest['ansver']?></p>
+                    <p><?=$quest['answer']?></p>
                 </div> <!-- cd-faq-content -->
                 </li>
             <?php endforeach;?>

@@ -25,14 +25,14 @@ include_once ('./files/templates/admin/admin_menu.php');?>
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($cats as $cats_name): ?>
+    <?php foreach ($cats as $catsName): ?>
         <tr>
-            <td> <?=$cats_name['cat_name'];?> </td>
-            <td><?php $quest = new \models\Questions($this->db); echo $quest->questsCount($cats_name['id'])['counts'];?></td>
-            <td><?php $quest = new \models\Questions($this->db); echo $quest->questsCount($cats_name['id'], 0)['counts'];?></td>
-            <td><?php $quest = new \models\Questions($this->db); echo $quest->questsCount($cats_name['id'], 1)['counts'];?></td>
-            <td><a href="?service=categories&action=rename&c_id=<?=$cats_name['id'];?>">Изменить название</a></td>
-            <td><a href="?service=categories&action=delete&c_id=<?=$cats_name['id'];?>">Удалить категорию <br> (все связанные вопросы и ответы буду удалены) </a></td>
+            <td><?=$catsName['cat_name'];?> </td>
+            <td><?=$catsName['total'];?></td>
+            <td><?=$catsName['pub'];?></td>
+            <td><?=$catsName['unpub'];?></td>
+            <td><a href="?service=categories&action=rename&c_id=<?=$catsName['id'];?>">Изменить название</a></td>
+            <td><a href="?service=categories&action=delete&c_id=<?=$catsName['id'];?>">Удалить категорию <br> (все связанные вопросы и ответы буду удалены) </a></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

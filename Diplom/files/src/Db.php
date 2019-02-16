@@ -4,9 +4,9 @@ class Db
 {
     private $connect = [
         'host' => 'localhost',
-        'name' => 'rbagrov',
-        'user' => 'rbagrov',
-        'pass' => 'neto1918'];
+        'name' => 'db_faq',
+        'user' => 'root',
+        'pass' => 'Destroer'];
 
     public function getDb()
     {

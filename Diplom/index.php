@@ -12,7 +12,7 @@ if (empty ($_SESSION['admin']) || (isset($_GET['admin']) && $_GET['admin'] == 0)
 
 //  Пользовательсая секция
 if($_SESSION['admin'] == 0) {
-    $user = new user\Control($db);
+    $user = new \Controllers\UserController($db);
     //вход в админскую часть
     if (isset($_GET['admin']) && $_GET['admin'] == 1) {
         $user ->signin();
@@ -29,7 +29,7 @@ if($_SESSION['admin'] == 0) {
 
 //  АДминская секция
 if ($_SESSION['admin'] == 1) {
-    $admin = new Admin\Control($db);
+    $admin = new \Controllers\AdminController($db);
     //Вход в главное меню админской части
     if (empty($_GET['service']) || (isset($_GET['service'])) && $_GET['service'] == 'main') {
         $admin->mainPage();
@@ -85,7 +85,7 @@ if ($_SESSION['admin'] == 1) {
         }
         //Добавление ответа
         if (isset($_GET['action']) && $_GET['action'] == 'ansver_add') {
-            $admin->addAnsver();
+            $admin->addAnswer();
         }
         //список вопрос без ответов
         $admin->q_no_ans();
@@ -109,7 +109,7 @@ if ($_SESSION['admin'] == 1) {
             $admin->changeQuestAndAns();
         }
         //список вопросов разбитых на категории
-        $admin->questAndAnsver();
+        $admin->questAndAnswer();
     }
 
 

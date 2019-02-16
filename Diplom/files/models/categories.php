@@ -1,4 +1,4 @@
-<?php namespace models;
+<?php namespace Models;
 
 //работа с категориями вопросов
 class Categories
@@ -28,25 +28,25 @@ GROUP BY `cat_name`');
         return $cat->fetchAll(\PDO::FETCH_ASSOC);
     }
     //Удаление категорий
-    public function deleteCats($c_id)
+    public function deleteCats($cId)
     {
         $cat = $this->db->getDb()->prepare('DELETE FROM `categories` WHERE `id` = :c_id');
-        $cat->bindValue(':c_id', $c_id, \PDO::PARAM_INT);
+        $cat->bindValue(':c_id', $cId, \PDO::PARAM_INT);
         $cat->execute();
     }
     //Добавление категории
-    public function addCat($c_name)
+    public function addCat($cName)
     {
         $cat = $this->db->getDb()->prepare('INSERT INTO `categories` (`cat_name`) VALUES (:c_name)');
-        $cat->bindValue(':c_name', $c_name, \PDO::PARAM_STR);
+        $cat->bindValue(':c_name', $cName, \PDO::PARAM_STR);
         $cat->execute();
     }
     //Переименование категории
-    public function renameCat($c_name, $c_id)
+    public function renameCat($cName, $cId)
     {
         $cat = $this->db->getDb()->prepare('UPDATE `categories` SET `cat_name` = :c_name WHERE `id` = :c_id');
-        $cat->bindValue(':c_name', $c_name, \PDO::PARAM_STR);
-        $cat->bindValue(':c_id', $c_id, \PDO::PARAM_INT);
+        $cat->bindValue(':c_name', $cName, \PDO::PARAM_STR);
+        $cat->bindValue(':c_id', $cId, \PDO::PARAM_INT);
         $cat->execute();
     }
 }
