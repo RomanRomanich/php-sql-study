@@ -14,7 +14,7 @@ class UserController
     public function signin()
     {
         $ren = new \Render();
-        $users = new \models\Users($this->db);
+        $users = new \Models\Users($this->db);
         if (isset($_POST['login']) && isset($_POST['password'])) {
             $user = $users->getUser($_POST['login']);
             if ($user && password_verify($_POST['password'], $user['password'])) { //проверка связки логин+пароль
@@ -33,8 +33,8 @@ class UserController
     public function mainPage()
     {
         $_SESSION['admin'] = 0;
-        $cat = new \models\Categories($this->db);
-        $quest = new \models\Questions($this->db);
+        $cat = new \Models\Categories($this->db);
+        $quest = new \Models\Questions($this->db);
         $ren = new \Render();
         $catName = $cat->getViewableCats();
         foreach ($catName as $key => $catsName) {
