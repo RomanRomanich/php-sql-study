@@ -54,7 +54,7 @@ class Questions
     {
         $getArray = $this->db->getDb()->prepare('SELECT `quests`.`id`,`quest`,`quester_name`,`quester_mail`,`date`,`published` FROM `quests`
 LEFT JOIN `ansvers` ON `quests`.`id` = `ansvers`.`quest_id`
-WHERE `ansvers`.`quest_id` IS null
+WHERE `ansvers`.`quest_id` IS null OR `ansvers`.`ansver` LIKE \'\'
 ORDER BY `quests`.`date` DESC');
         $getArray->execute();
         return $getArray->fetchAll(\PDO::FETCH_ASSOC);

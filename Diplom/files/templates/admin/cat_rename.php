@@ -9,7 +9,7 @@
 <?php //загрузка меню
 include_once ('./files/templates/admin/admin_menu.php');?>
 
-<form action="" method="get">
+<form action="" method="post">
     <input type="hidden" name="service" value="categories">
     <input type="hidden" name="action" value="rename">
     <input type="hidden" name="c_id" value="<?php echo $_GET['c_id'];?>">

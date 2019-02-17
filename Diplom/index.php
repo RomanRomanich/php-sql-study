@@ -17,14 +17,15 @@ if($_SESSION['admin'] == 0) {
     if (isset($_GET['admin']) && $_GET['admin'] == 1) {
         $user ->signin();
     }
+    //Форма добавления нового фопроса
+    if (isset($_POST['add_quest']) && $_POST['add_quest'] == 1) {
+        $user->addQuestion($_POST);
+    }
     //Загрузка главной страницы
     if (empty($_GET['admin']) || $_GET['admin'] != 1) {
         $user->mainPage();
     }
-    //Форма добавления нового фопроса
-    if (isset($_POST['add_quest']) && $_POST['add_quest'] == 1) {
-        $user->addQuestion();
-    }
+
 }
 
 //  АДминская секция
@@ -36,27 +37,23 @@ if ($_SESSION['admin'] == 1) {
     }
 // Секция маршрутизации
     //Работа с учетками
-    if  (isset($_GET['service']) && $_GET['service'] == 'user') {
+    if (isset($_GET['service']) && $_GET['service'] == 'user') {
         //Удаление учетки
         if (isset($_GET['action']) && $_GET['action'] == 'delete') {
             $admin->userDelete();
-        }
-        //Добавление учетки
+        } //Добавление учетки
         elseif (isset($_GET['action']) && $_GET['action'] == 'add') {
             $admin->userAdd();
             $admin->showUser();
-        }
-        //Смена пароля
+        } //Смена пароля
         elseif (isset($_GET['action']) && $_GET['action'] == 'pass_change') {
             $admin->passChange();
             $admin->showUser();
-        }
-        //Отображение всех учетных записей
+        } //Отображение всех учетных записей
         else {
             $admin->showUser();
         }
-    }
-    //Секция работы с категориями вопросов (темами)
+    } //Секция работы с категориями вопросов (темами)
     elseif (isset($_GET['service']) && $_GET['service'] == 'categories') {
         //Добавление
         if (isset($_GET['action']) && $_GET['action'] == 'add') {
@@ -72,8 +69,7 @@ if ($_SESSION['admin'] == 1) {
         }
         //Список категорий
         $admin->showAllCats();
-    }
-    //Отображение всех вопрос без ответов
+    } //Отображение всех вопрос без ответов
     elseif (isset($_GET['service']) && $_GET['service'] == 'q_no_ans') {
         //Удаление вопроса
         if (isset($_GET['action']) && $_GET['action'] == 'delete') {
@@ -89,15 +85,14 @@ if ($_SESSION['admin'] == 1) {
         }
         //список вопрос без ответов
         $admin->q_no_ans();
-    }
-    //Вопрсы разнесенные покатегориям
+    } //Вопрсы разнесенные покатегориям
     elseif (isset($_GET['service']) && $_GET['service'] == 'q_and_ans') {
         //удаление вопроса
         if (isset($_GET['action']) && $_GET['action'] == 'delete_q') {
             $admin->deleteQuest();
         }
         //Перенос в другую категорию
-        if(isset($_GET['action']) && $_GET['action'] == 'c_id_change') {
+        if (isset($_GET['action']) && $_GET['action'] == 'c_id_change') {
             $admin->changeQuestCategory();
         }
         //Изменения татуса (опудликован или нет)
@@ -111,49 +106,4 @@ if ($_SESSION['admin'] == 1) {
         //список вопросов разбитых на категории
         $admin->questAndAnswer();
     }
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*if (class_exists('Router')) {
-    if (!isset($start)) {
-        $start = new Router();
-        $start->start();
-    } else {
-        $start->start();
-    }
-} else {
-    echo 'net takokgo klassa';
-    die();
-}*/
-
-?>

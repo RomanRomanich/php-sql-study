@@ -48,12 +48,10 @@ class UserController
         $ren->userMainPage($cat->getViewableCats(), $cat->getAllCats(), $qAndAnsArray);
     }
     //Формирование модуля добавления вопросов
-    public function addQuestion()
+    public function addQuestion($quest)
     {
         $a = new \Models\Questions($this->db);
-        $a->addQuestion($_POST);
-        #header('Location: ./index.php');
-        header('Location: /');
+        $a->addQuestion($quest);
+        header('Location: ./index.php');
     }
-
 }

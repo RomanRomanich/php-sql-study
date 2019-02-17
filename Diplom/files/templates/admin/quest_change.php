@@ -8,7 +8,7 @@
 <body>
 <?php //загрузка меню
 include_once ('./files/templates/admin/admin_menu.php');?>
-<form action="" method="get">
+<form action="" method="post">
     <input type="hidden" name="service" value="q_no_ans">
     <input type="hidden" name="action" value="quest_change">
     <input type="hidden" name="q_id" value="<?php echo $_GET['q_id'];?>">

@@ -43,7 +43,7 @@
             <td><?=$questArray['quest']?></td>
             <td><?=$questArray['q_name']?></td>
             <td>
-                <form action="" method="get">
+                <form action="" method="post">
                     <input type="hidden" name="service" value="q_and_ans">
                     <input type="hidden" name="action" value="q_stat_change">
                     <input type="hidden" name="c_id" value="<?=$_GET['c_id']?>">
@@ -58,14 +58,14 @@
 
             <td>
                 <p>
-                <form class="selector" action="" method="get">
+                <form class="selector" action="" method="post">
                     <input type="hidden" name="service" value="q_and_ans">
                     <input type="hidden" name="action" value="c_id_change">
                     <input type="hidden" name="q_id" value="<?=$questArray['quest_id']?>">
                     <input type="hidden" name="c_id" value="<?=$questArray['category_id']?>">
                     <select name="c_id_change">
                         <?php foreach ($cats as $cat): ?>
-                            <option value="<?=$cat['id']?>" <?php if (isset($_GET['c_id']) && $_GET['c_id'] == $cat['id']) {echo "selected";}?> ><?=$cat['cat_name']?></option>
+                            <option value="<?=$cat['id']?>" <?php if (isset($_POST['c_id']) && $_POST['c_id'] == $cat['id']) {echo "selected";}?> ><?=$cat['cat_name']?></option>
                         <?php endforeach;?>
                         <input type="submit" value="Выбрать">
                     </select>
@@ -82,7 +82,7 @@
         <?php if (isset($_GET['field_show']) && $_GET['field_show'] == 1 && $_GET['q_id'] == $questArray['quest_id']): ?>
         <tr>
             <td colspan="9">
-                <form action="" method="get">
+                <form action="" method="post">
                     <input type="hidden" name="service" value="q_and_ans">
                     <input type="hidden" name="action" value="change_q_and_a">
                     <input type="hidden" name="c_id" value="<?=$questArray['category_id']?>">

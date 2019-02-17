@@ -28,8 +28,13 @@ class AdminController
     public function userDelete()
     {
         $admin = new \Models\Users($this->db);
-        $admin->userDelete($_GET['us_id']);
-        header('Location: ./index.php?service=user');
+        if (isset($_POST['us_id'])) {
+            $admin->userDelete($_POST['us_id']);
+            header('Location: ./index.php?service=user');
+        } elseif (isset($_GET['us_id'])) {
+            $admin->userDelete($_GET['us_id']);
+            header('Location: ./index.php?service=user');
+        }
     }
     //Добавление пользователя
     public function userAdd()
@@ -37,16 +42,16 @@ class AdminController
         $admin = new \Models\Users($this->db);
         $render = new \Render();
 
-        if (isset($_GET['login']) && $admin->getUser($_GET['login'])) {
+        if (isset($_POST['login']) && $admin->getUser($_POST['login'])) {
             $fail = 'Такой логин уже есть';
             $render->adminAdd($fail);
             die();
-        } elseif ((isset($_GET{'pass1'}) || isset($_GET['pass2'])) && $_GET['pass1'] != $_GET['pass2']) {
+        } elseif ((isset($_POST{'pass1'}) || isset($_POST['pass2'])) && $_POST['pass1'] != $_POST['pass2']) {
             $fail = 'Введенные пароли не совпадают, проверьте правильность ввода';
             $render->adminAdd($fail);
             die();
-        } elseif (isset($_GET['login']) && isset($_GET{'pass1'})) {
-            $admin->addUser($_GET['login'], password_hash($_GET['pass1'], PASSWORD_DEFAULT));
+        } elseif (isset($_POST['login']) && isset($_POST{'pass1'})) {
+            $admin->addUser($_POST['login'], password_hash($_POST['pass1'], PASSWORD_DEFAULT));
             header('Location: ./index.php?service=user');
         }
         $render->adminAdd();
@@ -56,11 +61,11 @@ class AdminController
     {
         $admin = new \Models\Users($this->db);
         $render = new \Render();
-        if ((isset($_GET{'pass1'}) || isset($_GET['pass2'])) && $_GET['pass1'] != $_GET['pass2']) {
+        if ((isset($_POST{'pass1'}) || isset($_POST['pass2'])) && $_POST['pass1'] != $_POST['pass2']) {
             $fail = 'Введенные пароли не совпадают, проверьте правильность ввода';
             $render->adminPassChange($fail);
-        } elseif ((isset($_GET{'pass1'}) || isset($_GET['pass2']))) {
-            $admin->changePass($_GET['us_id'], password_hash($_GET['pass1'], PASSWORD_DEFAULT));
+        } elseif ((isset($_POST{'pass1'}) || isset($_POST['pass2']))) {
+            $admin->changePass($_POST['us_id'], password_hash($_POST['pass1'], PASSWORD_DEFAULT));
             header('Location: ./index.php?service=user');
         } else {
             $render->adminPassChange();
@@ -85,16 +90,21 @@ class AdminController
     public function deleteCats()
     {
         $cat = new \Models\Categories($this->db);
-        $cat->deleteCats($_GET['c_id']);
-        header('Location: ./index.php?service=categories');
+        if (isset($_POST['c_id'])) {
+            $cat->deleteCats($_POST['c_id']);
+            header('Location: ./index.php?service=categories');
+        } elseif (isset($_GET['c_id'])) {
+            $cat->deleteCats($_GET['c_id']);
+            header('Location: ./index.php?service=categories');
+        }
     }
     //Добавление категории
     public function addCat()
     {
         $cat = new \Models\Categories($this->db);
         $render = new \Render();
-        if (isset($_GET['c_name'])) {
-            $cat->addCat($_GET['c_name']);
+        if (isset($_POST['c_name'])) {
+            $cat->addCat($_POST['c_name']);
             header('Location: ./index.php?service=categories');
         } else {
             $render->addCat();
@@ -105,8 +115,8 @@ class AdminController
     {
         $cat = new \Models\Categories($this->db);
         $render = new \Render();
-        if (isset($_GET['c_name'])) {
-            $cat->renameCat($_GET['c_name'], $_GET['c_id']);
+        if (isset($_POST['c_name'])) {
+            $cat->renameCat($_POST['c_name'], $_POST['c_id']);
             header('Location: ./index.php?service=categories');
         } else {
             $render->renameCat();
@@ -123,16 +133,22 @@ class AdminController
     public function deleteQuest()
     {
         $quests = new \Models\Questions($this->db);
-        $quests->removeQuest($_GET['q_id']);
-        header('Location: ./index.php?service='.$_GET['service'].'&c_id='.$_GET['c_id']);
+        if (isset($_POST['q_id'])) {
+            $quests->removeQuest($_POST['q_id']);
+            header('Location: ./index.php?service='.$_POST['service'].'&c_id='.$_POST['c_id']);
+        } elseif (isset($_GET['q_id'])) {
+            $quests->removeQuest($_GET['q_id']);
+            header('Location: ./index.php?service='.$_GET['service'].'&c_id='.$_GET['c_id']);
+        }
+
     }
     //Изменение текста вопроса
     public function changeQuest()
     {
         $quests = new \Models\Questions($this->db);
         $render = new \Render();
-        if (isset($_GET['q_name']) && isset($_GET['q_id']) ){
-            $quests->changeQuest($_GET['q_id'], $_GET['q_name']);
+        if (isset($_POST['q_name']) && isset($_POST['q_id']) ){
+            $quests->changeQuest($_POST['q_id'], $_POST['q_name']);
             header('Location: ./index.php?service=q_no_ans');
         } else {
             $render->changeQuest();
@@ -144,10 +160,10 @@ class AdminController
         $quests = new \Models\Questions($this->db);
         $render = new \Render();
         $ansver = new \Models\Answers($this->db);
-        if (isset($_GET['q_id']) && isset($_GET['ansver']) && isset($_GET['ansverer_name'])) {
-            $ansver->addAnswer($_GET['q_id'], $_GET['ansver'], $_GET['ansverer_name']);
-            if (!empty($_GET['publish'])) {
-                $quests->changeStatus($_GET['q_id'], $_GET['publish']);
+        if (isset($_POST['q_id']) && isset($_POST['ansver']) && isset($_POST['ansverer_name'])) {
+            $ansver->addAnswer($_POST['q_id'], $_POST['ansver'], $_POST['ansverer_name']);
+            if (!empty($_POST['publish'])) {
+                $quests->changeStatus($_POST['q_id'], $_POST['publish']);
             }
             header('Location: ./index.php?service=q_no_ans');
         } else {
@@ -161,7 +177,9 @@ class AdminController
         $cats = new \Models\Categories($this->db);
         $render = new \Render();
         $render->questAndAnswerCats($cats->getAllCats());
-        if (isset($_GET['c_id'])) {
+        if (isset($_POST['c_id'])) {
+            $render->questAndAnswerQuest($quests->getQuestAndAnswers($_POST['c_id']), $cats->getAllCats());
+        } elseif (isset($_GET['c_id'])) {
             $render->questAndAnswerQuest($quests->getQuestAndAnswers($_GET['c_id']), $cats->getAllCats());
         }
     }
@@ -169,18 +187,18 @@ class AdminController
     public function changeQuestCategory()
     {
         $quests = new \Models\Questions($this->db);
-        if (isset($_GET['q_id']) && isset($_GET['c_id_change'])) {
-            $quests->changeCategory($_GET['q_id'], $_GET['c_id_change']);
-            header('Location: ./index.php?service='.$_GET['service'].'&c_id='.$_GET['c_id']);
+        if (isset($_POST['q_id']) && isset($_POST['c_id_change'])) {
+            $quests->changeCategory($_POST['q_id'], $_POST['c_id_change']);
+            header('Location: ./index.php?service='.$_POST['service'].'&c_id='.$_POST['c_id']);
         }
     }
     //Смена статуса опубликован или нет
     public function changeStatus()
     {
         $quests = new \Models\Questions($this->db);
-        if (isset($_GET['q_id']) && isset($_GET['q_stat_change'])) {
-            $quests->changeStatus($_GET['q_id'], $_GET['q_stat_change']);
-            header('Location: ./index.php?service='.$_GET['service'].'&c_id='.$_GET['c_id']);
+        if (isset($_POST['q_id']) && isset($_POST['q_stat_change'])) {
+            $quests->changeStatus($_POST['q_id'], $_POST['q_stat_change']);
+            header('Location: ./index.php?service='.$_POST['service'].'&c_id='.$_POST['c_id']);
         }
     }
     //ПРавки вопроса и ответа
@@ -188,15 +206,15 @@ class AdminController
     {
         $quests = new \Models\Questions($this->db);
         $ans = new \Models\Answers($this->db);
-        if (isset($_GET['q_id']) && isset($_GET['q_name']) && isset($_GET['q_auth']) && isset($_GET['a_id']) && isset($_GET['ansver'])) {
-            if ($ans->getAnswerCount($_GET['q_id']) > 0){
-                $ans->changeAnswer($_GET['a_id'], $_GET['ansver']);
+        if (isset($_POST['q_id']) && isset($_POST['q_name']) && isset($_POST['q_auth']) && isset($_POST['a_id']) && isset($_POST['ansver'])) {
+            if ($ans->getAnswerCount($_POST['q_id']) > 0){
+                $ans->changeAnswer($_POST['a_id'], $_POST['ansver']);
             } else {
-                $ans->addAnswer($_GET['q_id'], $_GET['ansver'], $_SESSION['admin_name']);
+                $ans->addAnswer($_POST['q_id'], $_POST['ansver'], $_SESSION['admin_name']);
             }
-            $quests->changeQuest($_GET['q_id'], $_GET['q_name']);
-            $quests->changeQuestAuth($_GET['q_id'], $_GET['q_auth']);
-            header('Location: ./index.php?service=' . $_GET['service'] . '&c_id=' . $_GET['c_id']);
+            $quests->changeQuest($_POST['q_id'], $_POST['q_name']);
+            $quests->changeQuestAuth($_POST['q_id'], $_POST['q_auth']);
+            header('Location: ./index.php?service=' . $_POST['service'] . '&c_id=' . $_POST['c_id']);
         }
     }
 }

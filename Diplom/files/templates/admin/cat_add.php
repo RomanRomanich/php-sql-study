@@ -8,7 +8,7 @@
 <body>
 <?php //загрузка меню
 include_once ('./files/templates/admin/admin_menu.php');?>
-<form action="" method="get">
+<form action="" method="post">
     <input type="hidden" name="service" value="categories">
     <input type="hidden" name="action" value="add">
     <p>Введите название категории <input type="text" name="c_name" required></p>

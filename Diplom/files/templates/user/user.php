@@ -45,7 +45,9 @@
             <?php endforeach;?>
         </ul> <!-- cd-faq-group -->
         <?php endforeach;?>
-
+<!--ЗАДАТЬ ВОПРОС-->
+        <pre>
+        </pre>
 		<ul id="addquest" class="cd-faq-group">
 			<li class="cd-faq-title"><h2>Задать вопрос</h2></li>
 			<li>
@@ -61,11 +63,11 @@
                                 <?php endforeach; ?>
                             </select></p>
                         <p>Напишите Ваш вопрос</p>
-                        <p><textarea name="quest" cols="50" rows="5"></textarea></p>
+                        <p><textarea name="quest" cols="50" rows="5" required></textarea></p>
                         <p>Как Вас зовут</p>
-                        <p><input type="text" name="quester_name"></p>
+                        <p><input type="text" name="quester_name" required></p>
                         <p>Укажите Вашу электронную почту</p>
-                        <p><input type="email" name="quester_mail"></p>
+                        <p><input type="email" name="quester_mail" required></p>
                         <p><input type="submit" value="Задать вопрос"></p>
                     </form>
 				</div> <!-- cd-faq-content -->
